@@ -115,7 +115,7 @@ La matriz dice **qué** se prueba; el diagrama dice **qué hace una persona, en 
   bash ~/.claude/skills/plan-implementation/scripts/plan-files.sh diagrams-check <carpeta-del-spec>
   ```
   El primero genera al lado de cada `.mmd` un `.png` (escala 2, fondo blanco) y un `.pdf`; el segundo confirma que las imágenes están al día y que los IDs de los diagramas y de la matriz coinciden. El `.mmd`, el `.png` y el `.pdf` **se commitean** con el spec. Si falta `mmdc`, se instala global (`npm i -g @mermaid-js/mermaid-cli`); si Puppeteer no trae su navegador, se apunta a uno existente con `~/.config/mermaid/puppeteer.json` (`{"executablePath": "<ruta>", "headless": "shell"}`).
-- **Al cerrar el plan**, `plan-implementation` deriva de estos el **recorrido de prueba** con los datos reales (ver su paso 6).
+- **Al cerrar el plan**, `plan-implementation` deriva de estos el **recorrido de prueba** con los datos reales y, si el proyecto usa Cypress, un **video por cada `E2E-n` de interfaz** (ver su paso 6): por eso cada título de test lleva su `E2E-n`.
 
 ### Traducirlos en `tasks.md`
 
@@ -163,7 +163,7 @@ Las pruebas end-to-end no reemplazan a las unitarias: una regla de cálculo, una
 - [ ] Cada decisión que el repo no cierra se contrastó con fuentes externas (regla 7): `design.md` tiene "Alternativas contrastadas" con URL y fecha, y lo que podría mejorarse está en `pending-items.md` como `Mejora`.
 - [ ] Ninguna recomendación del plan está recortada para dar menos trabajo: la opción marcada como preferida es la que más mejora el producto, con su costo a la vista, no la más barata de implementar (regla 8).
 - [ ] La deuda, los riesgos y las cosas pendientes vistos hasta ahora están en `pending-items.md` (no en secciones de `design.md`/`tasks.md`), y ninguna tarea corrige deuda fuera del alcance.
-- [ ] El cierre de `tasks.md` incluye la tarea del recorrido de prueba (`test-walkthrough.md` con sus diagramas exportados), la de `/code-review`, la de revisar/actualizar `pending-items.md` y, como última tarea, la de enumerarlo completo con el usuario en un solo mensaje (alternativas por entrada, la oferta de un plan propio si alguna es compleja, y el plan sin cerrarse hasta que cada entrada tenga respuesta). Ninguna tarea de cierre escribe un archivo con la lista de archivos cambiados.
+- [ ] El cierre de `tasks.md` incluye la tarea del recorrido de prueba (`test-walkthrough.md` con sus diagramas exportados y la línea `🎬` de cada casilla que se grabará), la de videos por caso (`M.2b`, solo si el proyecto usa Cypress y hay casos de interfaz; si no, con el motivo de por qué no aplica), la de `/code-review`, la de revisar/actualizar `pending-items.md` y, como última tarea, la de enumerarlo completo con el usuario en un solo mensaje (alternativas por entrada, la oferta de un plan propio si alguna es compleja, y el plan sin cerrarse hasta que cada entrada tenga respuesta). Ninguna tarea de cierre escribe un archivo con la lista de archivos cambiados.
 - [ ] Cada sección de `tasks.md` termina en una parada de "revisión del usuario" antes de su commit, y ninguna tarea pide pushear ni abrir PR.
 - [ ] `tasks.md` tiene `**Base:**`, verificación estándar con los comandos reales del proyecto, sección de pruebas y una sección de cierre cuya última tarea es el `/code-review` final.
 - [ ] `tasks.md` registra, junto a `**Base:**`, que la rama/entorno de implementación y la creación de una rama nueva se decidirán con el usuario antes de tocar código (paso 1 de "Implementar un plan" en `plan-implementation`), no asumidos de antemano.

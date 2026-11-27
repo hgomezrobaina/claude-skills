@@ -14,6 +14,7 @@ Cuando no había perfil, ofrécele al usuario guardarlo en `.claude/plans-profil
 | Comandos de verificación | Build, typecheck, lint y test **reales**, por repo, copiados de `package.json`/`Makefile`/etc. |
 | Framework end-to-end | Cuál, dónde vive, cómo se levanta el entorno, cómo se corre un spec suelto |
 | Datos de prueba | Escenarios, fixtures, factories o seeds: dónde se definen y cómo los pide un test |
+| Modo demo de los e2e (videos por caso) | Qué repos tienen Cypress, cómo se levanta el entorno y se sirve el frontend para correr **specs sueltos** (comandos exactos, puertos, build en carpeta privada si el `dist/` es compartido), los argumentos extra de Cypress que hagan falta (`DEMO_CYPRESS_ARGS`: `--config baseUrl=…`, `chromeWebSecurity=false`…) y las trampas del entorno. Lo usa `plan-implementation` en la tarea `M.2b` |
 | Convención de selectores | Ids de DOM derivados, `data-testid`, roles accesibles… y dónde está el archivo de selectores |
 | Permisos / roles | De dónde salen las claves (paquete, enum, tabla) |
 | i18n | Si los textos visibles llevan forma de diccionario (`{ es, en }`) o van literales |
@@ -44,6 +45,14 @@ Cuando no había perfil, ofrécele al usuario guardarlo en `.claude/plans-profil
 | `<repo>` | <framework> en `<ruta>` | `<comando>` | <escenarios/fixtures> | <convención> |
 
 Sin suite end-to-end todavía: `<repo>` — **Decisión (usuario, AAAA-MM-DD):** <qué se hará>.
+
+### Videos de los casos (modo demo)
+
+<!-- Solo repos con Cypress. Lo usa la tarea M.2b de `plan-implementation`. -->
+
+| Repo | Entorno para specs sueltos | Frontend servido en | `DEMO_CYPRESS_ARGS` | Trampas |
+|---|---|---|---|---|
+| `<repo>` | `<comando que levanta el backend de pruebas>` (esperar a que termine) | `<comando>` en `<puerto>` | `<argumentos, o ninguno>` | <p. ej. el entorno siembra al arrancar; el puerto habitual lo usa otra cosa> |
 
 ## Convenciones
 

@@ -26,3 +26,7 @@ Dentro de `docs/specs/` (o `<repo>/docs/specs/` en un plan de un solo repo) la c
 ## `diagrams/`
 
 Los diagramas de flujo de prueba viven en `docs/specs/<estado>/<slug>/diagrams/`: `plan-*.mmd` (de `design.md`) y `walkthrough-*.mmd` (del recorrido de prueba del cierre), cada uno con su `.png` y su `.pdf` exportados al lado por `plan-files.sh diagrams`. Los tres archivos se commitean con el spec y se mueven con él al cambiar de estado. Los documentos los enlazan como `./diagrams/<archivo>`. **(Decisión del usuario, 2026-11-20.)**
+
+## `videos/`
+
+Los clips de video de los casos end-to-end viven en `docs/specs/<estado>/<slug>/videos/`: un `E2E-n.mp4` por cada caso que se prueba por interfaz, generados por la tarea `M.2b` de `plan-implementation` con `plan-files.sh videos`. **No se commitean**: si el spec vive dentro de un repo, `videos/` tiene que estar ignorada por git (`docs/specs/**/videos/` en el `.gitignore`), y `plan-files.sh videos` se niega a grabar si no lo está. Son regenerables con el mismo comando en cualquier máquina. Mientras se generan, los intermedios (subtítulos, marcas de tiempo y videos crudos) están en `videos/.work/`, que se borra al terminar bien. Las casillas de `test-walkthrough.md` los enlazan como `./videos/E2E-n.mp4`, así que moverse de `pending/` a `in-progress/` y a `finished/` no rompe ningún enlace. **(Decisión del usuario, 2026-11-27.)**
