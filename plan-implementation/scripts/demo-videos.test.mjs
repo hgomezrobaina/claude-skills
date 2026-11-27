@@ -72,6 +72,19 @@ describe("UT-1 WalkthroughCaptions", () => {
     assert.deepEqual(result.captions, {});
   });
 
+  it("no toma por enlace una casilla que menciona ▶ [video] en prosa", () => {
+    const markdown = walkthrough({
+      lines: [
+        "- [ ] E2E-17 — Una casilla con `▶ [video]` sin 🎬 falla. (sin video: línea de comandos)",
+      ],
+    });
+
+    const result = parser.execute({ markdown });
+
+    assert.deepEqual(result.errors, []);
+    assert.deepEqual(result.captions, {});
+  });
+
   it("falla si el subtítulo pasa de 90 caracteres y acepta uno de exactamente 90", () => {
     const exact = "a".repeat(CAPTION_MAX_LENGTH);
     const tooLong = "a".repeat(CAPTION_MAX_LENGTH + 1);

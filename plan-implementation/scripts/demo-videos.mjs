@@ -75,6 +75,9 @@ const CAPTION_LINE_PATTERN = /^\s+- 🎬 (.*)$/;
 const INDENTED_PATTERN = /^\s+\S/;
 const MARKDOWN_PATTERN = /(\*\*|__|`|\[[^\]]*\]\()/;
 const VIDEO_LINK = "▶ [video]";
+// Solo cuenta como enlace el real, con su destino: una casilla que explica la
+// sintaxis en prosa («`▶ [video]` sin 🎬») no es un enlace.
+const VIDEO_LINK_PATTERN = /▶ \[video\]\(/;
 const TEST_ID_PATTERN = /\bE2E-\d+\b/g;
 
 function roundToMillis(value) {
@@ -112,7 +115,7 @@ export class WalkthroughCaptions {
       const content = this.findCaptionContent({ lines, from: index + 1 });
 
       if (content === null) {
-        if (lines[index].includes(VIDEO_LINK)) {
+        if (VIDEO_LINK_PATTERN.test(lines[index])) {
           errors.push(
             `${id}: la casilla tiene ${VIDEO_LINK} pero no tiene su línea «- 🎬 …»`,
           );
@@ -454,7 +457,7 @@ class CutCommand {
     const linked = lines.map((line) => {
       const checkbox = CHECKBOX_PATTERN.exec(line);
 
-      if (checkbox === null || !ids.includes(checkbox[1]) || line.includes(VIDEO_LINK)) {
+      if (checkbox === null || !ids.includes(checkbox[1]) || VIDEO_LINK_PATTERN.test(line)) {
         return line;
       }
 
@@ -490,22 +493,22 @@ class CutCommand {
     }
 
     const font = escapeFilterValue(fontFile);
-    const draw = (file, options) => {
+    const draw = ({ file, options }) => {
       return `drawtext=fontfile=${font}:textfile=${file}:x=(w-text_w)/2:${options}`;
     };
     // Una línea por drawtext: con `text_align=center` el salto de línea sale como
     // un cuadrito («▯») al final de cada línea.
     const subtitleDraws = subtitleLines.map((line, index) => {
-      return draw(
-        `cover-subtitle-${index}.txt`,
-        `fontcolor=white:fontsize=38:y=h*0.40+${index * SUBTITLE_LINE_HEIGHT}`,
-      );
+      return draw({
+        file: `cover-subtitle-${index}.txt`,
+        options: `fontcolor=white:fontsize=38:y=h*0.40+${index * SUBTITLE_LINE_HEIGHT}`,
+      });
     });
     const cover = [
-      draw("cover-id.txt", "fontcolor=0xc4b5fd:fontsize=72:y=h*0.26"),
+      draw({ file: "cover-id.txt", options: "fontcolor=0xc4b5fd:fontsize=72:y=h*0.26" }),
       ...subtitleDraws,
-      draw("cover-actor.txt", "fontcolor=0x9ca3af:fontsize=26:y=h*0.66"),
-      draw("cover-plan.txt", "fontcolor=0x6b7280:fontsize=22:y=h*0.88"),
+      draw({ file: "cover-actor.txt", options: "fontcolor=0x9ca3af:fontsize=26:y=h*0.66" }),
+      draw({ file: "cover-plan.txt", options: "fontcolor=0x6b7280:fontsize=22:y=h*0.88" }),
     ].join(",");
 
     mkdirSync(join(specDir, "videos"), { recursive: true });
