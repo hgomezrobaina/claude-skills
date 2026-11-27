@@ -1,0 +1,20 @@
+{
+  "es": {
+    "description": "<una frase, ≤ 160 caracteres, con la keyword>",
+    "tags": ["<tag1>", "<tag2>"],
+    "series": null,
+    "canonical_url": null,
+    "main_image": null,
+    "id": null,
+    "url": null
+  },
+  "en": {
+    "description": "<one sentence, ≤ 160 characters, with the keyword>",
+    "tags": ["<tag1>", "<tag2>"],
+    "series": null,
+    "canonical_url": null,
+    "main_image": null,
+    "id": null,
+    "url": null
+  }
+}
