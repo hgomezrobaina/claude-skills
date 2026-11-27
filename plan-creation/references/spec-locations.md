@@ -16,7 +16,7 @@ Dentro de `docs/specs/` (o `<repo>/docs/specs/` en un plan de un solo repo) la c
 - **Al marcar la primera tarea `[x]`** (arranca el paso 3 de "Implementar un plan"), el agente mueve la carpeta completa de `pending/` a `in-progress/` en ese mismo momento, antes de seguir con la tarea siguiente.
 - **Al cerrar el plan** (paso 8 de "Implementar un plan": reporte final entregado, sin tareas abiertas del agente), el agente mueve la carpeta de `in-progress/` a `finished/`.
 - **Si un spec ya cerrado necesita más trabajo** (el usuario pide retomarlo o ampliarlo), vuelve a `in-progress/` apenas se marca la primera tarea nueva, igual que un spec que arranca por primera vez.
-- **Cómo se mueve:** si `docs/specs/` no es parte de un repo git (workspace multi-repo con raíz sin `.git`, ver fase 0 de `plan-creation`), es un `mv` directo de la carpeta, sin pedir permiso aparte. Si vive dentro de un repo (`<repo>/docs/specs/...`), es un `git mv` de la carpeta completa, y el movimiento espera la misma revisión y luz verde que cualquier otro cambio (regla 4 de `references/rules.md`): no se commitea solo porque cambió el estado, va junto con el commit de la sección que lo disparó.
+- **Cómo se mueve:** si `docs/specs/` no es parte de un repo git (workspace multi-repo con raíz sin `.git`, ver fase 0 de `plan-creation`), es un `mv` directo de la carpeta, sin pedir permiso aparte. Si vive dentro de un repo (`<repo>/docs/specs/...`), es un `git mv` de la carpeta completa, y el movimiento se commitea al instante como cualquier otro cambio del spec (regla 4 de `references/rules.md`, § commit de los documentos del plan), en un commit aparte del código de la sección.
 - **El perfil del proyecto puede declarar que esta organización no aplica** (por ejemplo, un repo que ya tiene su propia convención de carpetas para specs); en ese caso se sigue lo que diga el perfil.
 
 ## `handoff/`
@@ -26,6 +26,10 @@ Dentro de `docs/specs/` (o `<repo>/docs/specs/` en un plan de un solo repo) la c
 ## `diagrams/`
 
 Los diagramas de flujo de prueba viven en `docs/specs/<estado>/<slug>/diagrams/`: `plan-*.mmd` (de `design.md`) y `walkthrough-*.mmd` (del recorrido de prueba del cierre), cada uno con su `.png` y su `.pdf` exportados al lado por `plan-files.sh diagrams`. Los tres archivos se commitean con el spec y se mueven con él al cambiar de estado. Los documentos los enlazan como `./diagrams/<archivo>`. **(Decisión del usuario, 2026-11-20.)**
+
+## `mockup/`
+
+Si el usuario aceptó el mockup HTML opcional (`plan-ui-design/references/mockup-rules.md`), vive en `docs/specs/<estado>/<slug>/mockup/` (`index.html` y `base.css`). **Sí se commitea** y se mueve con el spec al cambiar de estado. **(Decisión del usuario, 2026-11-27.)**
 
 ## `videos/`
 
