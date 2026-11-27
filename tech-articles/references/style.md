@@ -73,7 +73,7 @@ Van como comentario HTML con todo redactado, nunca como `![](…)` a un archivo 
 ```markdown
 <!--
 FIGURA 2 — <sección>, <nombre corto>.
-Fuente: publish/videos → <slug>-fig-02-<nombre> · pendiente de generar.
+Fuente: Projects/tech-articles/videos → <slug>-fig-02-<nombre> · pendiente de generar.
 <restricciones: si comparte encuadre con otra figura, cuál y qué no puede cambiar>
 
 Alt: <descripción completa de lo que se ve, para quien no ve la imagen>

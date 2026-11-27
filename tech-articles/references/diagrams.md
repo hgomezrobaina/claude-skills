@@ -1,5 +1,7 @@
 # Figuras
 
+**Método general: skill global `visual-media`** (`references/figures.md`: criterio, vetos, kit, bucle visual). Aquí va lo propio de la serie: estilo, ubicación y alojamiento. Las figuras siguen en Remotion aunque los vídeos nuevos se hagan con HyperFrames (decidido por el autor el 2026-11-27).
+
 Una figura entra cuando enseña una **forma** que la prosa y el código no enseñan igual de bien: un grafo de dependencias, una frontera, un antes/después. Los mecanismos (un coste, una regla) se explican en texto.
 
 ## Presupuesto y criterio
@@ -44,7 +46,7 @@ Fondo oscuro moderno con los colores de Chaca (tokens de `chaca-web/src/index.cs
 - **Conectores (`Edge`):** líneas de árbol en gris sin flecha; flechas sólo cuando hay dirección; discontinuas para "escribe en" / "provee"; `accent` para el camino que el artículo defiende. Etiquetas de flecha en mono, 18 px.
 - **Pie dentro de la figura (`footer`):** una línea con lo que demuestra, en números si los hay. El pie del artículo (`_…_` bajo la imagen) dice **qué mirar**.
 
-## Herramienta: Remotion (`publish/videos/`)
+## Herramienta: Remotion (`Projects/tech-articles/videos/`)
 
 Cada figura es un `<Still>` de Remotion en el mismo proyecto que los vídeos de la serie. Lee su `README.md` antes de tocarlo.
 
@@ -58,11 +60,11 @@ Cada figura es un `<Still>` de Remotion en el mismo proyecto que los vídeos de 
 - **Render** a 2× (2800 px de ancho: nítido en la columna de Medium y dev.to en pantallas retina), directo a la carpeta del artículo:
 
 ```bash
-cd publish/videos
+cd ~/Desktop/Projects/tech-articles/videos
 npx remotion still <slug>-fig-NN-<nombre>-es ../<slug>/diagrams/NN-<nombre>.png --scale=2
 ```
 
-`NN` es el número de la sección. El PNG va en `diagrams/`; la fuente vive en `publish/videos/`.
+`NN` es el número de la sección. El PNG va en `diagrams/`; la fuente vive en `Projects/tech-articles/videos/`.
 
 - **Dónde se alojan al publicar** (decidido por el autor el 2026-10-13): en el repo del ejemplo, en `docs/diagrams/`, y el artículo las enlaza con su URL absoluta:
 

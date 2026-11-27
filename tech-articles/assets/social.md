@@ -8,12 +8,12 @@
 
 ## Vídeo
 
-| Post | Composición | Archivo | Portada |
+| Post | Proyecto | Archivo | Portada |
 | --- | --- | --- | --- |
-| LinkedIn | `<slug>-<lang>` (feed 4:5) | `publish/videos/out/<slug>-<lang>.mp4` | fotograma NNN |
-| X | `<slug>-<lang>-square` (1:1) | `publish/videos/out/<slug>-<lang>-square.mp4` | fotograma NNN |
+| LinkedIn | `<slug>-<lang>` (feed 4:5) | `Projects/tech-articles/hyperframes/<slug>-<lang>/out/<slug>-<lang>.mp4` | fotograma NNN |
+| X | `<slug>-<lang>-square` (1:1) | `Projects/tech-articles/hyperframes/<slug>-<lang>/out/<slug>-<lang>-square.mp4` | fotograma NNN |
 
-Regenerar: `cd publish/videos && npx remotion render <id> out/<id>.mp4`.
+Regenerar: `cd Projects/tech-articles/hyperframes/<slug>-<lang> && npx hyperframes render --output out/<id>.mp4` (vídeos anteriores al 2026-11-27, en Remotion: `cd Projects/tech-articles/videos && npx remotion render <id> out/<id>.mp4`).
 
 ---
 

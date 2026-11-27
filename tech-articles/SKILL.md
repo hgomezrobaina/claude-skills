@@ -27,10 +27,10 @@ Cómo se pregunta: se explica lo encontrado con su evidencia (archivo, línea, f
 | `references/structure.md` | Fase 1: título, tesis, esqueleto de secciones y presupuesto de palabras |
 | `references/research.md` | Fase 2: cómo investigar, qué cuenta como verificado, criterio de cierre |
 | `references/style.md` | Fase 3: voz, tono, snippets, notas, lo que no se escribe nunca |
-| `references/diagrams.md` | Fase 1 (plan de figuras) y fase 3 (generarlas con Remotion) |
+| `references/diagrams.md` | Fase 1 (plan de figuras) y fase 3 (generarlas con Remotion; método general en `visual-media`) |
 | `references/review.md` | Al cerrar el borrador y cada vez que el autor devuelve una edición |
 | `references/publishing.md` | Fase 4: traducción, plataformas, difusión |
-| `references/video.md` | Fase 4: el vídeo de los posts de LinkedIn y X (Remotion, proyecto `publish/videos/`) |
+| `references/video.md` | Fase 4: el vídeo de los posts de LinkedIn y X (HyperFrames, proyecto `hyperframes/`; método general en la skill `visual-media`) |
 | `assets/` | Plantillas: `TODO.md`, `fuentes.md`, `recortes.md`, `social.md`, `contacto.md`, `devto.json` |
 | `scripts/measure.py` | Medir presupuesto, lint de estilo y paridad `es.md`/`en.md` |
 | `scripts/social_check.py` | Comprobar los posts de `posts/*.txt`: 280 caracteres ponderados en X, formato para móvil en LinkedIn |
@@ -54,7 +54,7 @@ publish/
     ├── social.md             # contexto de la difusión: enlaces, vídeos, avisos, notas
     ├── devto.json            # descripción, tags e id/url en dev.to, por idioma (scripts/devto.py)
     ├── posts/                # un .txt por red e idioma, listo para copiar y pegar
-    ├── diagrams/             # NN-nombre.png (fuente: <Still> en publish/videos/; publicadas en example/docs/diagrams/)
+    ├── diagrams/             # NN-nombre.png (fuente: <Still> en Projects/tech-articles/videos/; publicadas en example/docs/diagrams/)
     ├── scratch/              # pruebas ejecutables que verifican afirmaciones
     └── example/              # proyecto ejecutable que acompaña al artículo (si aplica)
 ```
@@ -92,7 +92,7 @@ La investigación corrige el plan: cuando lo haga, **consulta al autor** con lo 
 ### Fase 3 — Borrador
 
 1. Lee `references/style.md`. Redacta `es.md` sección por sección, en orden. Tras cada sección, mide con `scripts/measure.py` y apunta real vs. presupuesto en `TODO.md`. Si el reparto se desvía, decide (y anota) **antes** de seguir, no al final.
-2. Figuras: mientras el borrador esté abierto, van como comentario HTML con su alt y su pie (`style.md`). Se generan al final como `<Still>` de Remotion en `publish/videos/`, con el kit de figuras y la paleta de Chaca (ver `diagrams.md`); carga antes `remotion-best-practices`.
+2. Figuras: mientras el borrador esté abierto, van como comentario HTML con su alt y su pie (`style.md`). Se generan al final como `<Still>` de Remotion en `Projects/tech-articles/videos/`, con el kit de figuras y la paleta de Chaca (ver `diagrams.md`); carga antes `visual-media` y `remotion-best-practices`.
 3. Si el artículo promete un repo, monta `example/`: ejecutable, con su métrica medida y citada, código y README en inglés.
 4. Pasada de revisión completa (`references/review.md`) y `measure.py --lint`.
 5. Entrega: dile al autor que el borrador está listo, con la medición, lo pendiente y las 2-3 decisiones que más conviene que revise.
@@ -109,7 +109,7 @@ A partir de aquí el autor reescribe `es.md` a mano. Cuando vuelva:
 
 Sigue `references/publishing.md`: `en.md` con paridad comprobada (`measure.py --parity`), checklist por plataforma, dev.to desde la skill con `scripts/devto.py` (borrador → revisión del autor → `--publish`), `posts/<red>-<lang>.txt` en texto plano para copiar y pegar, con `social.md` como contexto (seis ganchos con el método de `hook-generator` → el autor elige → LinkedIn con las reglas de `post-formatter` y X en un solo post de ≤ 280 caracteres, comprobados con `social_check.py`), y `SERIES.md` actualizado con las URLs.
 
-Los posts llevan **vídeo** por defecto: sigue `references/video.md` (guion aprobado por el autor → composición en `publish/videos/` con el kit de la serie → bucle visual con hojas de contacto → MP4 por plataforma). Carga `remotion-best-practices` antes de escribir la composición, y las `threejs-*` sólo si una escena lleva 3D propio.
+Los posts llevan **vídeo** por defecto: sigue `references/video.md` (guion aprobado por el autor → proyecto HyperFrames en `hyperframes/<slug>-<lang>/` con la marca y los bloques de la serie → bucle visual con hojas de contacto → MP4 por plataforma). Carga `visual-media` y, desde ella, `hyperframes`, antes de crear el proyecto. Los vídeos anteriores al 2026-11-27 siguen en Remotion (`videos/`).
 
 ## Reglas duras
 
