@@ -4,12 +4,6 @@ import assert from "node:assert/strict";
 import { before, describe, it } from "node:test";
 import { fileURLToPath } from "node:url";
 
-import {
-  ClipPlan,
-  ExpectedClips,
-  WalkthroughCaptions,
-} from "./demo-videos.mjs";
-
 const DEMO_TEST_ID_URL = new URL(
   "../kits/cypress-demo/cypress/support/demo/demo-test-id.ts",
   import.meta.url,
@@ -17,12 +11,23 @@ const DEMO_TEST_ID_URL = new URL(
 
 const CAPTION_MAX_LENGTH = 90;
 
+// Cada grupo importa su módulo por separado: así un módulo que aún no existe
+// pone en rojo solo a su grupo y no tumba el archivo entero.
+function loadScript() {
+  return import("./demo-videos.mjs");
+}
+
 function walkthrough({ lines }) {
   return ["# Guía de prueba", "", "## HU-2 — Proveedores de uso", "", ...lines].join("\n");
 }
 
 describe("UT-1 WalkthroughCaptions", () => {
-  const parser = new WalkthroughCaptions();
+  let parser;
+
+  before(async () => {
+    const { WalkthroughCaptions } = await loadScript();
+    parser = new WalkthroughCaptions();
+  });
 
   it("lee subtítulo, actor y flujo de una casilla con 🎬", () => {
     const markdown = walkthrough({
@@ -133,7 +138,13 @@ describe("UT-1 WalkthroughCaptions", () => {
 });
 
 describe("UT-2 ClipPlan", () => {
-  const plan = new ClipPlan();
+  let plan;
+
+  before(async () => {
+    const { ClipPlan } = await loadScript();
+    plan = new ClipPlan();
+  });
+
   const captions = {
     "E2E-1": { subtitle: "Uno → resultado", actor: "a", flow: "HU-1" },
     "E2E-2": { subtitle: "Dos → resultado", actor: "a", flow: "HU-1" },
@@ -254,7 +265,12 @@ describe("UT-2 ClipPlan", () => {
 });
 
 describe("UT-3 ExpectedClips", () => {
-  const expected = new ExpectedClips();
+  let expected;
+
+  before(async () => {
+    const { ExpectedClips } = await loadScript();
+    expected = new ExpectedClips();
+  });
 
   it("saca los IDs de las hojas, sin repetir y en orden numérico", () => {
     const ids = expected.execute({
