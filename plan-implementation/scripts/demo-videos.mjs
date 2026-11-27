@@ -46,13 +46,16 @@ try {
 
 const CAPTION_MAX_LENGTH = 90;
 const CLIP_MARGIN_SECONDS = 0.3;
+// Tras la primera carga de la app el navegador tarda ~0,3 s en pintarla (medido); hasta
+// entonces se ve la pantalla de Cypress. Se espera un poco más por si la máquina va lenta.
+const READY_PAINT_SECONDS = 0.5;
 const COVER_SECONDS = 2;
 const COVER_WRAP_WIDTH = 46;
 const ACTOR_SEPARATOR = " · actor: ";
 const FRAME_RATE = 25;
 const SUBTITLE_LINE_HEIGHT = 54;
 
-const MarkKind = Object.freeze({ Start: "start", End: "end" });
+const MarkKind = Object.freeze({ Start: "start", End: "end", Ready: "ready" });
 
 const SkipReason = Object.freeze({
   Failed: "failed",
@@ -252,9 +255,22 @@ export class ClipPlan {
           return Math.min(earliest, mark.t);
         }, Infinity);
 
+      // El clip arranca en la primera carga real de la aplicación (marca `ready`)
+      // y no en el inicio del caso: antes el navegador muestra la pantalla de
+      // Cypress mientras el test siembra datos e inicia sesión.
+      const ready = marks.find((mark) => {
+        return mark.id === id && mark.kind === MarkKind.Ready && mark.t > start.t;
+      });
+      // Con `ready` no hay margen previo (sería la pantalla de Cypress) y se espera a
+      // que la app se pinte, sin pasar del final del caso.
+      const begin =
+        ready === undefined
+          ? roundToMillis(start.t - CLIP_MARGIN_SECONDS)
+          : Math.min(roundToMillis(ready.t + READY_PAINT_SECONDS), end.t);
+
       clips.push({
         id,
-        start: Math.max(previousEnd, roundToMillis(start.t - CLIP_MARGIN_SECONDS)),
+        start: Math.max(previousEnd, begin),
         end: Math.min(nextStart, roundToMillis(end.t + CLIP_MARGIN_SECONDS)),
       });
     }

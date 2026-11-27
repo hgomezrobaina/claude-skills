@@ -72,9 +72,13 @@ interface Props {
 interface MarkInput {
   id: string;
   kind: DemoMarkKind;
+  /** Instante (ms desde la época) de la primera carga real de la app en el caso. */
+  readyAt: number | null;
 }
 
-interface Mark extends MarkInput {
+interface Mark {
+  id: string;
+  kind: DemoMarkKind;
   t: number;
 }
 
@@ -169,6 +173,14 @@ export class DemoNodeEvents {
     this.tasks = {
       ...this.tasks,
       [DemoTask.Mark]: (mark: MarkInput): null => {
+        if (mark.readyAt !== null) {
+          this.marks.push({
+            id: mark.id,
+            kind: DemoMarkKind.Ready,
+            t: (mark.readyAt - this.specStart) / 1000,
+          });
+        }
+
         this.marks.push({
           id: mark.id,
           kind: mark.kind,

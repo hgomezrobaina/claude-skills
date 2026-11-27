@@ -274,6 +274,48 @@ describe("UT-2 ClipPlan", () => {
     ]);
   });
 
+  it("arranca 0,5 s después de la primera carga de la app (marca ready), sin margen previo", () => {
+    const result = plan.execute({
+      marks: [
+        { id: "E2E-1", kind: "start", t: 1 },
+        { id: "E2E-1", kind: "ready", t: 4 },
+        { id: "E2E-1", kind: "end", t: 9 },
+      ],
+      tests: [{ title: "E2E-1 saves it", state: "passed" }],
+      captions,
+    });
+
+    assert.deepEqual(result.clips, [{ id: "E2E-1", start: 4.5, end: 9.3 }]);
+  });
+
+  it("no pasa del final del caso aunque ready quede casi al final", () => {
+    const result = plan.execute({
+      marks: [
+        { id: "E2E-1", kind: "start", t: 1 },
+        { id: "E2E-1", kind: "ready", t: 8.9 },
+        { id: "E2E-1", kind: "end", t: 9 },
+      ],
+      tests: [{ title: "E2E-1 saves it", state: "passed" }],
+      captions,
+    });
+
+    assert.equal(result.clips[0].start, 9);
+  });
+
+  it("ignora una marca ready anterior al inicio del caso", () => {
+    const result = plan.execute({
+      marks: [
+        { id: "E2E-1", kind: "ready", t: 0.5 },
+        { id: "E2E-1", kind: "start", t: 2 },
+        { id: "E2E-1", kind: "end", t: 9 },
+      ],
+      tests: [{ title: "E2E-1 saves it", state: "passed" }],
+      captions,
+    });
+
+    assert.equal(result.clips[0].start, 1.7);
+  });
+
   it("conserva el orden de los tests", () => {
     const result = plan.execute({
       marks: [

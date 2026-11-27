@@ -24,6 +24,8 @@ export class DemoCaptions {
   private readonly overlay: DemoOverlay;
   private readonly testId = new DemoTestId();
   private captions: DemoCaptionsFile = {};
+  private tracking = false;
+  private readyAt: number | null = null;
 
   constructor({ overlay }: Props) {
     this.overlay = overlay;
@@ -44,6 +46,15 @@ export class DemoCaptions {
       });
     });
 
+    // El clip empieza en la primera carga real de la aplicación del caso, no en
+    // su marca de inicio: hasta entonces el navegador muestra la pantalla de
+    // Cypress mientras el test siembra datos e inicia sesión por API.
+    Cypress.on("window:load", (win) => {
+      if (this.tracking && this.readyAt === null && win.document.URL !== "about:blank") {
+        this.readyAt = Date.now();
+      }
+    });
+
     beforeEach(() => {
       const id = this.testId.execute({ title: Cypress.currentTest.title });
 
@@ -51,7 +62,13 @@ export class DemoCaptions {
         return;
       }
 
-      cy.task(DemoTask.Mark, { id, kind: DemoMarkKind.Start }, { log: false });
+      this.tracking = true;
+      this.readyAt = null;
+      cy.task(
+        DemoTask.Mark,
+        { id, kind: DemoMarkKind.Start, readyAt: null },
+        { log: false },
+      );
 
       const caption = this.captions[id];
 
@@ -72,7 +89,12 @@ export class DemoCaptions {
       }
 
       cy.wait(DemoTiming.Hold, { log: false });
-      cy.task(DemoTask.Mark, { id, kind: DemoMarkKind.End }, { log: false });
+      cy.task(
+        DemoTask.Mark,
+        { id, kind: DemoMarkKind.End, readyAt: this.readyAt },
+        { log: false },
+      );
+      this.tracking = false;
       cy.document({ log: false }).then((doc) => {
         this.overlay.clearCaption({ doc });
       });

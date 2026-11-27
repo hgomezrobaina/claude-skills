@@ -6,4 +6,6 @@ export enum DemoTask {
 export enum DemoMarkKind {
   Start = "start",
   End = "end",
+  /** Primera carga real de la aplicación dentro del caso (no la página en blanco). */
+  Ready = "ready",
 }
