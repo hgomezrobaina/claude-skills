@@ -6,6 +6,7 @@ enum DemoDom {
   Caption = "demo-caption",
   Ring = "demo-ring",
   Press = "press",
+  Blank = "demo-blank",
 }
 
 const FONT_FAMILY = '"DejaVu Sans", Arial, sans-serif';
@@ -30,6 +31,10 @@ const OVERLAY_CSS = `
   }
   #${DemoDom.Caption} b { color: #c4b5fd; margin-right: 8px; }
   .${DemoDom.Ring} { outline: 3px solid #7c3aed !important; outline-offset: 2px !important; }
+  /* Entre tests, y mientras se siembra y se inicia sesión, la aplicación es la
+     página en blanco de Cypress («Default blank page…»): se oculta su texto. */
+  html.${DemoDom.Blank}, html.${DemoDom.Blank} body { background: #fff !important; }
+  html.${DemoDom.Blank} body > :not(#${DemoDom.Cursor}):not(#${DemoDom.Caption}) { display: none !important; }
 `;
 
 interface CaptionState {
@@ -75,6 +80,10 @@ export class DemoOverlay {
   mount({ doc }: DocProps): void {
     if (doc.getElementById(DemoDom.Cursor) !== null) {
       return;
+    }
+
+    if (doc.URL === "about:blank") {
+      doc.documentElement.classList.add(DemoDom.Blank);
     }
 
     const style = doc.createElement("style");

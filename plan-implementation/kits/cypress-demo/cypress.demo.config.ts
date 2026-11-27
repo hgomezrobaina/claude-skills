@@ -6,7 +6,7 @@ import baseConfig from "./cypress.config";
 /**
  * Configuración del modo demo: la del proyecto más lo que pide la grabación.
  * Se usa solo con `--config-file cypress.demo.config.ts`; la corrida normal ni
- * sabe que existe. Los videos crudos van a `--env demoOut=<carpeta>`.
+ * sabe que existe. Los videos crudos van a la carpeta de `CYPRESS_demoOut` (o `--env demoOut=…`).
  */
 const demoNodeEvents = new DemoNodeEvents();
 

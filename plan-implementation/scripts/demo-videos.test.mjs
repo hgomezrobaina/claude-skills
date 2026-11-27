@@ -253,6 +253,27 @@ describe("UT-2 ClipPlan", () => {
     assert.deepEqual(result.skipped, [{ id: "E2E-77", reason: "sin 🎬" }]);
   });
 
+  it("no invade a los casos vecinos con el margen", () => {
+    const result = plan.execute({
+      marks: [
+        { id: "E2E-1", kind: "start", t: 1 },
+        { id: "E2E-1", kind: "end", t: 9.5 },
+        { id: "E2E-2", kind: "start", t: 9.6 },
+        { id: "E2E-2", kind: "end", t: 12.6 },
+      ],
+      tests: [
+        { title: "E2E-1 first", state: "passed" },
+        { title: "E2E-2 second", state: "passed" },
+      ],
+      captions,
+    });
+
+    assert.deepEqual(result.clips, [
+      { id: "E2E-1", start: 0.7, end: 9.6 },
+      { id: "E2E-2", start: 9.5, end: 12.9 },
+    ]);
+  });
+
   it("conserva el orden de los tests", () => {
     const result = plan.execute({
       marks: [

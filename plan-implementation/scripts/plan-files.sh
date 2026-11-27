@@ -322,8 +322,14 @@ specs_from_design() {
   local spec="$1" fe="$2" path
   [ -f "$spec/design.md" ] || return 0
   grep -oE '`[^`]+\.cy\.(ts|tsx|js|jsx)`' "$spec/design.md" | tr -d '`' | sort -u | while IFS= read -r path; do
-    [ -f "$fe/cypress/e2e/$path" ] && printf 'cypress/e2e/%s\n' "$path"
-  done
+    if [ -f "$fe/$path" ]; then
+      printf '%s\n' "$path"
+    elif [ -f "$fe/cypress/e2e/$path" ]; then
+      printf 'cypress/e2e/%s\n' "$path"
+    else
+      echo "⚠ design.md cita $path pero no existe en $fe; se omite" >&2
+    fi
+  done | awk '!seen[$0]++'
   return 0
 }
 
@@ -364,10 +370,13 @@ cmd_videos() {
   joined="$(IFS=,; echo "${specs[*]}")"
 
   echo "▶ Cypress en modo demo: $joined"
-  (cd "$fe" && env -u ELECTRON_RUN_AS_NODE "${cypress_cmd[@]}" run \
+  # Las rutas viajan por variables de entorno (Cypress las lee como Cypress.env):
+  # `--env a=b,c=d` se separa por comas y una carpeta con una coma lo rompería.
+  (cd "$fe" && env -u ELECTRON_RUN_AS_NODE \
+      CYPRESS_demo=true CYPRESS_demoCaptions="$work/captions.json" CYPRESS_demoOut="$raw" \
+      "${cypress_cmd[@]}" run \
       --config-file cypress.demo.config.ts --no-runner-ui \
       ${extra[@]+"${extra[@]}"} \
-      --env "demo=true,demoCaptions=$work/captions.json,demoOut=$raw" \
       --spec "$joined") || cy_exit=$?
 
   node "$DEMO_SCRIPT" cut "$spec" || cut_exit=$?

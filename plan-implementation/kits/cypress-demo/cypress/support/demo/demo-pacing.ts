@@ -1,5 +1,5 @@
 import { DemoOverlay } from "./demo-overlay";
-import { DemoPacedCommand, DemoTiming } from "./demo-timing";
+import { DemoPacedCommand, DemoTag, DemoTiming } from "./demo-timing";
 
 interface Props {
   overlay: DemoOverlay;
@@ -143,7 +143,10 @@ export class DemoPacing {
     subject,
     action,
   }: PaceProps): Cypress.Chainable<JQuery<HTMLElement>> {
-    if (subject.length === 0) {
+    if (
+      subject.length === 0 ||
+      Cypress.currentTest.title.includes(DemoTag.NoPacing)
+    ) {
       return action();
     }
 

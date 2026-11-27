@@ -3,7 +3,7 @@ import { DemoOverlay } from "./demo-overlay";
 import { DemoPacing } from "./demo-pacing";
 
 /**
- * Punto de entrada del modo demo. Sin `--env demo=true` no registra nada: la
+ * Punto de entrada del modo demo. Sin `CYPRESS_demo=true` (o `--env demo=true`) no registra nada: la
  * suite corre igual que sin el kit.
  */
 const demo: string | boolean | undefined = Cypress.env("demo");

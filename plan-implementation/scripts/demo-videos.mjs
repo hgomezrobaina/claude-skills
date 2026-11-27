@@ -234,10 +234,28 @@ export class ClipPlan {
         continue;
       }
 
+      // El margen no puede invadir a los casos vecinos: en un spec rápido el caso
+      // anterior termina a décimas de segundo de que empiece este, y el clip
+      // arrancaría mostrando su final y su subtítulo.
+      const previousEnd = marks
+        .filter((mark) => {
+          return mark.kind === MarkKind.End && mark.id !== id && mark.t <= start.t;
+        })
+        .reduce((latest, mark) => {
+          return Math.max(latest, mark.t);
+        }, 0);
+      const nextStart = marks
+        .filter((mark) => {
+          return mark.kind === MarkKind.Start && mark.id !== id && mark.t >= end.t;
+        })
+        .reduce((earliest, mark) => {
+          return Math.min(earliest, mark.t);
+        }, Infinity);
+
       clips.push({
         id,
-        start: Math.max(0, roundToMillis(start.t - CLIP_MARGIN_SECONDS)),
-        end: roundToMillis(end.t + CLIP_MARGIN_SECONDS),
+        start: Math.max(previousEnd, roundToMillis(start.t - CLIP_MARGIN_SECONDS)),
+        end: Math.min(nextStart, roundToMillis(end.t + CLIP_MARGIN_SECONDS)),
       });
     }
 
@@ -410,6 +428,13 @@ class CutCommand {
 
     for (const markFile of markFiles) {
       const data = JSON.parse(readFileSync(join(rawDir, markFile), "utf8"));
+
+      if (typeof data.video !== "string" || !existsSync(data.video)) {
+        console.error(`✗ ${markFile}: Cypress no dejó video crudo para este spec`);
+        blocking = true;
+        continue;
+      }
+
       const result = plan.execute({
         marks: data.marks,
         tests: data.tests,
@@ -433,6 +458,10 @@ class CutCommand {
     }
 
     this.linkClips({ specDir, ids: madeIds });
+
+    if (madeIds.length === 0) {
+      console.log("· no se generó ningún clip (¿los casos tienen su línea 🎬 y su E2E-n en el título del test?)");
+    }
 
     if (blocking) {
       console.error("✗ Faltan clips de casos esperados; se conserva videos/.work para revisar");
@@ -494,7 +523,8 @@ class CutCommand {
 
     const font = escapeFilterValue(fontFile);
     const draw = ({ file, options }) => {
-      return `drawtext=fontfile=${font}:textfile=${file}:x=(w-text_w)/2:${options}`;
+      // expansion=none: un subtítulo con %{…} o \ se dibuja literal, no se expande.
+      return `drawtext=fontfile=${font}:textfile=${file}:expansion=none:x=(w-text_w)/2:${options}`;
     };
     // Una línea por drawtext: con `text_align=center` el salto de línea sale como
     // un cuadrito («▯») al final de cada línea.

@@ -19,6 +19,17 @@ export enum DemoTiming {
 }
 
 /**
+ * Marca en el título de un test que apaga el ritmo humano solo en ese test: los
+ * clics y la escritura van a velocidad de máquina. Es para pruebas de carrera
+ * (un doble clic rápido, un reintento inmediato) que dejarían de probar lo que
+ * prueban con una pausa de por medio. El test igual se marca, se rotula y genera
+ * su clip.
+ */
+export enum DemoTag {
+  NoPacing = "[sin-demo]",
+}
+
+/**
  * Comandos de interacción a los que el modo demo les da ritmo humano. `trigger`
  * queda fuera a propósito: los arrastres y los eventos sintéticos de bajo nivel
  * se rompen si se pausan.

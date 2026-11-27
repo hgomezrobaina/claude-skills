@@ -35,7 +35,7 @@ export class DemoCaptions {
 
       if (path === undefined) {
         throw new Error(
-          "El modo demo necesita --env demoCaptions=<ruta absoluta del captions.json>",
+          "El modo demo necesita la variable CYPRESS_demoCaptions (o --env demoCaptions=…) con la ruta absoluta del captions.json",
         );
       }
 

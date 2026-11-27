@@ -114,7 +114,7 @@ export class DemoNodeEvents {
 
     if (demoOut === undefined) {
       throw new Error(
-        "El modo demo necesita --env demoOut=<carpeta absoluta de los videos crudos>",
+        "El modo demo necesita la variable CYPRESS_demoOut (o --env demoOut=…) con la carpeta absoluta de los videos crudos",
       );
     }
 
