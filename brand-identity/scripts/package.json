@@ -1,0 +1,12 @@
+{
+  "name": "brand-identity-scripts",
+  "private": true,
+  "type": "module",
+  "description": "Scripts de la skill brand-identity: render de SVG, texto a curvas, color, exportación de kits, capturas.",
+  "dependencies": {
+    "@resvg/resvg-js": "2.6.2",
+    "culori": "4.0.2",
+    "opentype.js": "1.3.4",
+    "puppeteer-core": "24.10.0"
+  }
+}

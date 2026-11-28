@@ -5,8 +5,9 @@
 En el proyecto (o el workspace) en el que se trabaja, busca en este orden y quédate con la primera que exista:
 
 1. Lo que diga la skill del contexto (§ 1 de `SKILL.md`): `tech-articles` → `Projects/tech-articles/videos/` (figuras) y su proyecto HyperFrames; `chaca-videos` → el propio repo.
-2. Un repo o carpeta hermana dedicada: `<nombre>-videos/`, `<nombre>-media/`, `media/`, `videos/`, `visuals/`.
-3. Señales en el árbol: `hyperframes.json`, `frame.md`, `remotion.config.ts`, un `src/Root.tsx` con `<Composition>`/`<Still>`.
+2. Una carpeta de marca creada con `brand-identity` (tiene `brand.json` y `frame.md`; suele ser `brand/` o `<nombre>-brand/`): esa **es** la carpeta de recursos visuales. Su `frame.md`, sus fuentes en `assets/fonts/` y sus logos en `exports/logo/` ya están decididos: la entrevista de estilo solo pregunta lo que la marca no cubre (audio, destinos, idiomas). Los vídeos y las figuras van en sus subcarpetas `videos/` y `figures/`.
+3. Un repo o carpeta hermana dedicada: `<nombre>-videos/`, `<nombre>-media/`, `media/`, `videos/`, `visuals/`.
+4. Señales en el árbol: `hyperframes.json`, `frame.md`, `remotion.config.ts`, un `src/Root.tsx` con `<Composition>`/`<Still>`.
 
 ```bash
 find . -maxdepth 3 \( -name hyperframes.json -o -name frame.md -o -name 'remotion.config.*' \) -not -path '*/node_modules/*'

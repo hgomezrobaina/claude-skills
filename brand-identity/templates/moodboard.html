@@ -1,0 +1,47 @@
+<!doctype html>
+<!--
+  Moodboard de UNA ruta. Copiar a concepts/ruta-<x>/moodboard.html, rellenar y renderizar:
+  node scripts/screenshot.mjs moodboard.html moodboard.png --width 1600 --height 1000 --full
+  Cada referencia lleva su fuente (data-src) — las referencias comunican dirección, no se copian.
+  Celdas: .img (imagen local o capturada), .swatch (color), .type (muestra tipográfica), .word (palabra clave).
+  Clases de tamaño: .w2 (dos columnas), .h2 (dos filas).
+-->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Moodboard — {{RUTA}}</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #efeee9; font-family: system-ui, sans-serif; color: #151515; padding: 48px; width: 1600px; }
+  header { display: flex; justify-content: space-between; align-items: end; margin-bottom: 28px; }
+  h1 { font-size: 40px; letter-spacing: -0.02em; }
+  .idea { font-size: 18px; color: #555; max-width: 60ch; margin-top: 8px; }
+  .attrs { font: 600 13px/1.4 system-ui; letter-spacing: .08em; text-transform: uppercase; text-align: right; }
+  .board { display: grid; grid-template-columns: repeat(5, 1fr); grid-auto-rows: 240px; gap: 14px; }
+  .board > * { border-radius: 10px; overflow: hidden; position: relative; background: #fff; }
+  .w2 { grid-column: span 2; } .h2 { grid-row: span 2; }
+  .img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .swatch { display: flex; align-items: end; padding: 14px; font: 500 13px/1.3 ui-monospace, monospace; }
+  .type { display: flex; align-items: center; justify-content: center; padding: 20px; font-size: 64px; text-align: center; line-height: 1; }
+  .word { display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 700; letter-spacing: -0.01em; }
+  .src { position: absolute; left: 8px; bottom: 8px; font-size: 10px; background: rgba(255,255,255,.85); padding: 2px 6px; border-radius: 4px; color: #333; }
+  footer { margin-top: 20px; font-size: 13px; color: #666; }
+</style>
+</head>
+<body>
+  <header>
+    <div><h1>Ruta {{X}} · {{nombre de la ruta}}</h1><p class="idea">{{La idea en una frase.}}</p></div>
+    <div class="attrs">{{atributo 1}}<br>{{atributo 2}}<br>{{atributo 3}}</div>
+  </header>
+  <div class="board">
+    <div class="img w2 h2"><img src="{{ref-1.jpg}}" alt=""><span class="src">{{fuente}}</span></div>
+    <div class="swatch" style="background:{{#hex}};color:{{#texto}}">{{Nombre}}<br>{{#hex}}</div>
+    <div class="type" style="font-family:'{{Display}}'">Aa</div>
+    <div class="img"><img src="{{ref-2.jpg}}" alt=""><span class="src">{{fuente}}</span></div>
+    <div class="word">{{palabra clave}}</div>
+    <div class="img w2"><img src="{{ref-3.jpg}}" alt=""><span class="src">{{fuente}}</span></div>
+    <div class="swatch" style="background:{{#hex}};color:{{#texto}}">{{Nombre}}<br>{{#hex}}</div>
+  </div>
+  <footer>Referencias de dirección; ninguna se reproduce en la marca. Fuentes en research/sources.md.</footer>
+</body>
+</html>

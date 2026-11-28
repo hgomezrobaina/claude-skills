@@ -1,0 +1,175 @@
+<!doctype html>
+<!--
+  Esqueleto del manual de marca. Copiar a guidelines/brand-book.html y rellenar con los valores de brand.json
+  (copiados, nunca retecleados de memoria) y los archivos de ../exports/.
+  · Cada <section class="page"> es una página A4 horizontal en el PDF.
+  · Ajustar el bloque "Alias" a los ids de color de la marca; el resto del CSS usa solo los alias.
+  · Exportar: node scripts/screenshot.mjs guidelines/brand-book.html guidelines/brand-book.pdf
+  · Revisar páginas sueltas: node scripts/screenshot.mjs guidelines/brand-book.html /tmp/bb.png --width 1123 --height 794 --full
+-->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>{{NOMBRE}} — Manual de marca</title>
+<link rel="stylesheet" href="../tokens/tokens.css">
+<style>
+  /* @font-face de las fuentes de marca, desde ../assets/fonts/ */
+
+  /* Alias: ajustar a los ids de brand.json */
+  :root {
+    --bb-bg: var(--color-paper, #fafaf7);
+    --bb-ink: var(--color-ink, #111);
+    --bb-muted: color-mix(in oklch, var(--bb-ink) 60%, var(--bb-bg));
+    --bb-line: color-mix(in oklch, var(--bb-ink) 15%, var(--bb-bg));
+    --bb-primary: var(--color-primary, #333);
+    --bb-display: var(--font-display, system-ui);
+    --bb-text: var(--font-text, var(--font-display, system-ui));
+  }
+  @page { size: 297mm 210mm; margin: 0; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { background: var(--bb-bg); color: var(--bb-ink); font-family: var(--bb-text); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { width: 297mm; height: 210mm; padding: 18mm 20mm; position: relative; overflow: hidden; break-after: page; display: grid; grid-template-rows: auto 1fr; gap: 10mm; }
+  .page > header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--bb-line); padding-bottom: 4mm; }
+  .page > header .n { font: 600 9pt/1 var(--bb-text); letter-spacing: .1em; text-transform: uppercase; color: var(--bb-primary); }
+  .page > header .b { font-size: 9pt; color: var(--bb-muted); }
+  h1 { font: 700 54pt/1 var(--bb-display); letter-spacing: -0.03em; }
+  h2 { font: 700 28pt/1.05 var(--bb-display); letter-spacing: -0.02em; }
+  h3 { font: 600 12pt/1.2 var(--bb-text); margin-bottom: 2mm; }
+  p, li { font-size: 10.5pt; line-height: 1.5; color: var(--bb-muted); max-width: 70ch; }
+  .cols { display: grid; grid-template-columns: 1fr 1.6fr; gap: 14mm; align-content: start; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6mm; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5mm; }
+  .tile { border-radius: 3mm; background: #fff; border: 1px solid var(--bb-line); display: flex; align-items: center; justify-content: center; padding: 8mm; height: 40mm; }
+  .tile img { max-width: 100%; max-height: 100%; }
+  .tile.dark { background: var(--bb-ink); } .tile.brand { background: var(--bb-primary); }
+  .cap { font-size: 8.5pt; color: var(--bb-muted); margin-top: 2mm; }
+  .dont { position: relative; }
+  .dont::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top right, transparent 49%, #e5484d 49.5%, #e5484d 50.5%, transparent 51%); border-radius: 3mm; }
+  .swatch { border-radius: 3mm; height: 46mm; padding: 5mm; display: flex; flex-direction: column; justify-content: flex-end; font: 9pt/1.5 ui-monospace, monospace; }
+  .swatch b { font: 700 13pt/1.2 var(--bb-display); margin-bottom: 2mm; }
+  .ratio { display: flex; height: 10mm; border-radius: 2mm; overflow: hidden; margin-top: 6mm; }
+  table { border-collapse: collapse; width: 100%; font-size: 9.5pt; }
+  td, th { text-align: left; padding: 2.2mm 3mm; border-bottom: 1px solid var(--bb-line); vertical-align: top; }
+  th { font-weight: 600; color: var(--bb-ink); }
+  .cover { background: var(--bb-primary); color: #fff; grid-template-rows: 1fr auto; }
+  .cover p { color: rgba(255,255,255,.8); }
+</style>
+</head>
+<body>
+
+<section class="page cover">
+  <div style="align-self:center"><img src="../exports/logo/horizontal-white.svg" alt="{{NOMBRE}}" style="height:28mm"></div>
+  <div><h1 style="color:#fff">Manual de marca</h1><p>Versión {{1.0}} · {{AAAA-MM}}</p></div>
+</section>
+
+<section class="page">
+  <header><span class="n">Índice</span><span class="b">{{NOMBRE}}</span></header>
+  <ol class="grid-3" style="list-style:none;padding:0">
+    <li><h3>01 La marca</h3></li><li><h3>02 Voz y tono</h3></li><li><h3>03 Logo</h3></li>
+    <li><h3>04 Color</h3></li><li><h3>05 Tipografía</h3></li><li><h3>06 Iconos y gráficos</h3></li>
+    <li><h3>07 Imagen</h3></li><li><h3>08 Retícula y movimiento</h3></li><li><h3>09 Aplicaciones</h3></li>
+    <li><h3>10 Recursos</h3></li><li><h3>11 Lista de comprobación</h3></li><li><h3>12 Cambios</h3></li>
+  </ol>
+</section>
+
+<section class="page">
+  <header><span class="n">01 · La marca</span><span class="b">{{NOMBRE}}</span></header>
+  <div class="cols">
+    <div><h2>{{Propósito en una frase}}</h2><p style="margin-top:6mm">{{Promesa}}</p></div>
+    <div>
+      <h3>Posicionamiento</h3><p>{{…}}</p>
+      <h3 style="margin-top:6mm">Atributos</h3>
+      <table><tr><th>Es</th><th>No es</th><th>Cómo se ve</th></tr><tr><td>{{}}</td><td>{{}}</td><td>{{}}</td></tr></table>
+    </div>
+  </div>
+</section>
+
+<section class="page">
+  <header><span class="n">02 · Voz y tono</span><span class="b">{{NOMBRE}}</span></header>
+  <div class="cols">
+    <div><h2>{{Cómo hablamos, en una línea}}</h2><ol style="margin-top:6mm"><li>{{principio}}</li></ol></div>
+    <table><tr><th>Decimos</th><th>No decimos</th></tr><tr><td>{{}}</td><td>{{}}</td></tr></table>
+  </div>
+</section>
+
+<section class="page">
+  <header><span class="n">03 · Logo — variantes</span><span class="b">{{NOMBRE}}</span></header>
+  <div class="grid-3">
+    <div><div class="tile"><img src="../exports/logo/horizontal.svg" alt=""></div><p class="cap">Principal · cabeceras y documentos</p></div>
+    <div><div class="tile"><img src="../exports/logo/vertical.svg" alt=""></div><p class="cap">Vertical · formatos cuadrados</p></div>
+    <div><div class="tile"><img src="../exports/logo/symbol.svg" alt=""></div><p class="cap">Símbolo · icono, avatar, favicon</p></div>
+    <div><div class="tile dark"><img src="../exports/logo/horizontal-white.svg" alt=""></div><p class="cap">Negativo</p></div>
+    <div><div class="tile brand"><img src="../exports/logo/horizontal-white.svg" alt=""></div><p class="cap">Sobre color de marca</p></div>
+    <div><div class="tile"><img src="../exports/logo/horizontal-black.svg" alt=""></div><p class="cap">Una tinta</p></div>
+  </div>
+</section>
+
+<section class="page">
+  <header><span class="n">03 · Logo — construcción, área de respeto y tamaño mínimo</span><span class="b">{{NOMBRE}}</span></header>
+  <div class="cols">
+    <div><p>{{La idea detrás del símbolo, 2-3 líneas.}}</p><p style="margin-top:4mm">Área de respeto: {{x = …}} en todos los lados. Tamaño mínimo: {{N}} px en pantalla · {{N}} mm impreso.</p></div>
+    <div class="tile" style="height:120mm"><img src="../logo/construction.svg" alt=""></div>
+  </div>
+</section>
+
+<section class="page">
+  <header><span class="n">03 · Logo — usos incorrectos</span><span class="b">{{NOMBRE}}</span></header>
+  <div class="grid-4">
+    <!-- Generar cada ejemplo DE VERDAD (estirado, rotado, recoloreado, sombra, contorno, otra fuente, reordenado, sin contraste) -->
+    <div><div class="tile dont"><img src="../exports/logo/horizontal.svg" alt="" style="transform:scaleX(1.4)"></div><p class="cap">No estirar ni deformar</p></div>
+    <div><div class="tile dont"><img src="../exports/logo/horizontal.svg" alt="" style="transform:rotate(-12deg)"></div><p class="cap">No rotar</p></div>
+    <div><div class="tile dont"><img src="../exports/logo/horizontal.svg" alt="" style="filter:hue-rotate(140deg)"></div><p class="cap">No cambiar los colores</p></div>
+    <div><div class="tile dont"><img src="../exports/logo/horizontal.svg" alt="" style="filter:drop-shadow(2mm 2mm 2mm rgba(0,0,0,.5))"></div><p class="cap">No añadir efectos</p></div>
+  </div>
+</section>
+
+<section class="page">
+  <header><span class="n">04 · Color</span><span class="b">{{NOMBRE}}</span></header>
+  <div>
+    <div class="grid-4">
+      <div class="swatch" style="background:{{#hex}};color:{{#texto}}"><b>{{Nombre}}</b>HEX {{#hex}}<br>RGB {{r g b}}<br>OKLCH {{…}}<br>CMYK {{c m y k}} ({{perfil}})<br>Pantone {{…}}</div>
+    </div>
+    <div class="ratio"><div style="flex:60;background:{{neutro}}"></div><div style="flex:30;background:var(--bb-primary)"></div><div style="flex:10;background:{{acento}}"></div></div>
+    <p class="cap">Proporción de uso · pares accesibles aprobados en la página siguiente</p>
+  </div>
+</section>
+
+<section class="page">
+  <header><span class="n">05 · Tipografía</span><span class="b">{{NOMBRE}}</span></header>
+  <div class="cols">
+    <div><h1 style="font-size:80pt">Aa</h1><p>{{Familia}} · {{pesos}} · {{licencia}}<br>Respaldo: {{pila}}</p></div>
+    <table>
+      <tr><th>Nivel</th><th>Familia · peso</th><th>Tamaño / interlineado</th></tr>
+      <tr><td style="font:700 28pt/1.05 var(--bb-display)">Titular</td><td>{{}}</td><td>{{}}</td></tr>
+      <tr><td style="font-size:11pt">Cuerpo</td><td>{{}}</td><td>{{}}</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- 06 Iconos y gráficos · 07 Imagen · 08 Retícula y movimiento · 09 Aplicaciones (mockups de ../applications/) -->
+
+<section class="page">
+  <header><span class="n">10 · Recursos</span><span class="b">{{NOMBRE}}</span></header>
+  <table>
+    <tr><th>Qué</th><th>Dónde</th></tr>
+    <tr><td>Logos SVG / PNG / PDF</td><td>exports/logo/</td></tr>
+    <tr><td>Iconos de app iOS y Android</td><td>exports/app-icon/</td></tr>
+    <tr><td>Favicon, PWA y &lt;head&gt;</td><td>exports/web/</td></tr>
+    <tr><td>Tokens (CSS, Tailwind, DTCG)</td><td>tokens/</td></tr>
+    <tr><td>Fuentes y licencias</td><td>assets/fonts/</td></tr>
+  </table>
+</section>
+
+<section class="page">
+  <header><span class="n">11 · Lista de comprobación</span><span class="b">{{NOMBRE}}</span></header>
+  <ul>
+    <li>¿Usé la variante de logo adecuada para el espacio?</li>
+    <li>¿Respeté el área de respeto y el tamaño mínimo?</li>
+    <li>¿El texto pasa el contraste (par aprobado)?</li>
+    <li>¿Solo fuentes y colores de la marca?</li>
+    <li>¿El tono suena a nosotros (decimos / no decimos)?</li>
+  </ul>
+</section>
+
+</body>
+</html>

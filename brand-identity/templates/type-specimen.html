@@ -1,0 +1,66 @@
+<!doctype html>
+<!--
+  Muestra tipográfica de UNA combinación. Copiar a concepts/type/opcion-<x>.html, reemplazar los {{…}} y
+  renderizar con: node scripts/screenshot.mjs opcion-a.html opcion-a.png --width 1400 --height 1000
+  Fuentes: preferir archivos locales (@font-face con url relativa a assets/fonts/); para explorar
+  rápido vale el <link> de Google Fonts, pero el entregable final siempre usa archivos locales.
+-->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Tipografía — {{OPCIÓN}}</title>
+<!-- <link href="https://fonts.googleapis.com/css2?family={{Familia+Display}}:wght@{{pesos}}&family={{Familia+Texto}}:wght@400;600&display=swap" rel="stylesheet"> -->
+<style>
+  /* @font-face { font-family: "{{Display}}"; src: url("../../assets/fonts/{{archivo}}.woff2") format("woff2"); font-weight: 100 900; } */
+  :root {
+    --display: "{{Display}}", system-ui, sans-serif;
+    --text: "{{Texto}}", system-ui, sans-serif;
+    --mono: "{{Mono}}", ui-monospace, monospace;
+    --bg: {{#fondo}};
+    --ink: {{#texto}};
+    --muted: {{#texto-secundario}};
+    --primary: {{#primario}};
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--text); padding: 64px; width: 1400px; }
+  .tag { font: 600 13px/1 var(--text); letter-spacing: .08em; text-transform: uppercase; color: var(--primary); }
+  .grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px; margin-top: 24px; }
+  h1 { font: {{peso-display}} 96px/1.02 var(--display); letter-spacing: -0.03em; }
+  h2 { font: {{peso-display}} 40px/1.1 var(--display); letter-spacing: -0.015em; margin-top: 40px; }
+  p { font-size: 18px; line-height: 1.55; color: var(--muted); margin-top: 16px; max-width: 62ch; }
+  .alpha { font: {{peso-display}} 44px/1.25 var(--display); margin-top: 40px; word-break: break-all; }
+  .nums { font: 500 28px/1.4 var(--text); font-variant-numeric: tabular-nums; margin-top: 24px; }
+  .ui { margin-top: 40px; display: flex; gap: 16px; align-items: center; }
+  .btn { font: 600 16px/1 var(--text); background: var(--primary); color: #fff; padding: 14px 22px; border-radius: 10px; }
+  .chip { font: 500 14px/1 var(--text); border: 1.5px solid var(--muted); padding: 8px 12px; border-radius: 99px; }
+  .price { font: 700 36px/1 var(--display); font-variant-numeric: tabular-nums; }
+  .weights span { display: block; font-family: var(--display); font-size: 30px; line-height: 1.35; }
+  code { font-family: var(--mono); font-size: 15px; color: var(--muted); }
+  .meta { margin-top: 48px; font-size: 14px; color: var(--muted); border-top: 1px solid currentColor; padding-top: 16px; }
+</style>
+</head>
+<body>
+  <div class="tag">Opción {{X}} · {{Display}} + {{Texto}}</div>
+  <div class="grid">
+    <div>
+      <h1>{{Nombre de la marca}}<br>{{la promesa en pocas palabras}}</h1>
+      <p>{{Un párrafo real de la marca, en español, con tildes y eñes: «¿Cuánto tardás en cotizar un vehículo? Con {{marca}} son minutos, no días.» Pingüino, cigüeña, año, ¡sí!}}</p>
+      <h2>Un subtítulo que explica el beneficio</h2>
+      <p>Texto de interfaz de tamaño medio para comprobar la lectura continua en pantallas pequeñas y la forma de la a, g, y.</p>
+      <div class="ui"><span class="btn">Empezar gratis</span><span class="chip">Nuevo</span><span class="price">$ 1.249,90</span></div>
+    </div>
+    <div>
+      <div class="weights">
+        <span style="font-weight:300">Ligera 300 — Ñandú</span>
+        <span style="font-weight:400">Regular 400 — Ñandú</span>
+        <span style="font-weight:500">Media 500 — Ñandú</span>
+        <span style="font-weight:700">Negrita 700 — Ñandú</span>
+      </div>
+      <div class="alpha">AaBbCcÑñ GgQqRr 0123456789 ¿¡&@%€$</div>
+      <div class="nums">1.111,11<br>8.888,88<br>0.123,45</div>
+      <p><code>const marca = "{{slug}}";</code></p>
+    </div>
+  </div>
+  <div class="meta">{{Display}}: {{fuente}} · {{licencia}} &nbsp;·&nbsp; {{Texto}}: {{fuente}} · {{licencia}} &nbsp;·&nbsp; Por qué: {{atributo que expresa}}</div>
+</body>
+</html>
